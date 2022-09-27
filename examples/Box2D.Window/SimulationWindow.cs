@@ -79,8 +79,8 @@ namespace Box2D.Window
             if (eventArgs.Key == Key.Number1 && X >= (DisplayDevice.Default.Width / scaleX / 2))
                 X -= DisplayDevice.Default.Width / scaleX / 2;
             else
-            if (eventArgs.Key == Key.Number2 && X != DisplayDevice.Default.Width / scaleX / 2)
-                X = DisplayDevice.Default.Width / scaleX + (DisplayDevice.Default.Width / scaleX / 2);
+            if (eventArgs.Key == Key.Number2)
+                X = (DisplayDevice.Default.Width / 2) - DisplayDevice.Default.Width / scaleX / 2;
             else
             if (eventArgs.Key == Key.Number1 && X == DisplayDevice.Default.Width / scaleX / 2)
                 X -= DisplayDevice.Default.Width / scaleX / 2;
