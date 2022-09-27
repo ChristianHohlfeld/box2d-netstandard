@@ -48,13 +48,13 @@ namespace Box2D.WindowTests
             {
                 int width = DisplayDevice.Default.Width;
                 int height = DisplayDevice.Default.Height;
-                int scale = 4;
+                int scaleX = 2;
+                int scaleY = 1;
                 //var game = new SimulationWindow("Physics Simulation", width, height, GameWindowFlags.Fullscreen, focusBody);
-                var game = new SimulationWindow("Physics Simulation", width, height, scale, GameWindowFlags.FixedWindow, focusBody);
+                var game = new SimulationWindow("Physics Simulation", width, height, scaleX, scaleY, GameWindowFlags.FixedWindow, focusBody);
                 game.UpdateFrame += OnUpdateFrame;
                 game.Disposed += OnDisposed;
                 game.SetView(new CameraView(position: new Vector2(0, 0), 0.05f));
-
                 var physicsDrawer = new DrawPhysics(game);
                 // physicsDrawer.AppendFlags(DrawFlags.Aabb);
                 physicsDrawer.AppendFlags(DrawFlags.Shape);
