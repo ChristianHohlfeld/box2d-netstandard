@@ -12,6 +12,7 @@ using OpenTK.Graphics;
 using OpenTK.Input;
 using Math = System.Math;
 using Color = Box2D.NetStandard.Dynamics.World.Color;
+using Box2D.NetStandard.Dynamics.World;
 
 namespace Box2D.Window
 {
@@ -28,8 +29,6 @@ namespace Box2D.Window
 
         private int mouseLast = 0;
         private int frames = 0;
-        private int width_initial = 0;
-        private int height_initial = 0;
         private int scaleX = 0;
         private int scaleY = 0;
         public SimulationWindow(string title, int width, int height, int scaleX, int scaleY, GameWindowFlags gameWindowFlags, Body focusBody = null)
@@ -38,8 +37,6 @@ namespace Box2D.Window
             this.title = title;
             this.X = 0;
             this.Y = 0;
-            width_initial = width;
-            height_initial = height;
             this.scaleX = scaleX;
             this.focusBody = focusBody;
             WindowBorder = WindowBorder.Hidden;
@@ -50,7 +47,7 @@ namespace Box2D.Window
         public void SetView(IView view)
         {
             this.view = view;
-            view.Position = Vector2.Zero;
+            
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs eventArgs)
@@ -148,7 +145,7 @@ namespace Box2D.Window
             if (focusBody != null)
             {
                 var bodyPosition = focusBody.GetPosition();
-                view.Position = new Vector2(bodyPosition.X, bodyPosition.Y);
+                view.Position = new Vector2(bodyPosition.X + 15, bodyPosition.Y);  //TODO: remove hack
             }
 
             view?.Update();

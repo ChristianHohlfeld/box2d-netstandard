@@ -10,6 +10,7 @@ using Box2D.NetStandard.Dynamics.World;
 using Box2D.NetStandard.Dynamics.World.Callbacks;
 using Box2D.Window;
 using Box2D.WorldTests;
+using CocosSharp.RubeLoader;
 using OpenTK;
 
 namespace Box2D.WindowTests
@@ -28,18 +29,9 @@ namespace Box2D.WindowTests
 
         private static void CreateWorld()
         {
-            world = RubeGoldbergWorld.CreateWorld(out Body[] bodies, out Joint[] joints);
+            RubeLayer rlayer = new RubeLayer("bike.json", new System.Numerics.Vector2(0, 0));
 
-            // world = AddPairWorld.CreateWorld();
-            // world = CollisionTestWorld.CreateWorld();
-            // world = PolyEdgeTestWorld.CreateWorld();
-            // world = DistanceJointProblemWorld.CreateWorld();
-
-            // Car Test
-            // world     = CarWorld.CreateWorld(out Body[] bodies, out Joint[] joints);
-            // focusBody = bodies[8];
-
-            // world = Box2DBug604World.CreateWorld();
+            rlayer.LoadWorld(out world);
         }
 
         private static void Main()
@@ -48,9 +40,9 @@ namespace Box2D.WindowTests
             {
                 int width = DisplayDevice.Default.Width;
                 int height = DisplayDevice.Default.Height;
-                int scaleX = 4;
-                int scaleY = 1;
-                //var game = new SimulationWindow("Physics Simulation", width, height, GameWindowFlags.Fullscreen, focusBody);
+                int scaleX = 2;
+                int scaleY = 2;
+                //   var game = new SimulationWindow("Physics Simulation", width, height, 1, 1, GameWindowFlags.Fullscreen, focusBody);
                 var game = new SimulationWindow("Physics Simulation", width, height, scaleX, scaleY, GameWindowFlags.FixedWindow, focusBody);
                 game.UpdateFrame += OnUpdateFrame;
                 game.Disposed += OnDisposed;
@@ -60,7 +52,6 @@ namespace Box2D.WindowTests
                 physicsDrawer.AppendFlags(DrawFlags.Shape);
                 // physicsDrawer.AppendFlags(DrawFlags.Pair);
                 physicsDrawer.AppendFlags(DrawFlags.Joint);
-
                 world.SetDebugDraw(physicsDrawer);
 
                 game.VSync = OpenTK.VSyncMode.Off;
