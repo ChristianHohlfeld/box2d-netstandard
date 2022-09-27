@@ -11,9 +11,12 @@
     <AssemblyVersion>2.0.2.0</AssemblyVersion>
     <FileVersion>2.0.2.0</FileVersion>
     <Version>2.0.2-alpha</Version>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="OpenTK.NetStandard" Version="1.0.5.22"/>
-    <ProjectReference Include="..\..\src\box2dx\Box2D.NetStandard\Box2D.NetStandard.csproj"/>
+    <PackageReference Include="OpenTK.NetStandard" Version="1.0.5.22" />
+    <ProjectReference Include="..\..\src\box2dx\Box2D.NetStandard\Box2D.NetStandard.csproj" />
   </ItemGroup>
 </Project>

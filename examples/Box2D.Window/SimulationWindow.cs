@@ -28,12 +28,21 @@ namespace Box2D.Window
 
         private int mouseLast = 0;
         private int frames = 0;
-
-        public SimulationWindow(string title, int width, int height, Body focusBody = null)
-            : base(width, height, GraphicsMode.Default, title, GameWindowFlags.FixedWindow)
+        private int width_initial = 0;
+        private int height_initial = 0;
+        private int scale_initial = 0;
+        public SimulationWindow(string title, int width, int height, int scale, GameWindowFlags gameWindowFlags, Body focusBody = null)
+            : base(width, height, GraphicsMode.Default, title, gameWindowFlags)
         {
             this.title = title;
+            this.X = 0;
+            this.Y = 0;
+            width_initial = width;
+            height_initial = height;
+            scale_initial = scale;
             this.focusBody = focusBody;
+            WindowBorder = WindowBorder.Hidden;
+            Size = new Size(width / scale, height);
 
             drawActions = new ConcurrentQueue<Action>();
         }
@@ -41,6 +50,7 @@ namespace Box2D.Window
         public void SetView(IView view)
         {
             this.view = view;
+            view.Position = Vector2.Zero;
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs eventArgs)
@@ -57,6 +67,20 @@ namespace Box2D.Window
         protected override void OnKeyDown(KeyboardKeyEventArgs eventArgs)
         {
             base.OnKeyDown(eventArgs);
+
+            if (eventArgs.Key == Key.Escape)
+            {
+                Exit();
+                return;
+            }
+            if (eventArgs.Key == Key.Right && (X + (DisplayDevice.Default.Width / scale_initial)) <= (DisplayDevice.Default.Width - (DisplayDevice.Default.Width / scale_initial)))
+            {
+                X += DisplayDevice.Default.Width / scale_initial;
+            }
+            if (eventArgs.Key == Key.Left && X >= (DisplayDevice.Default.Width / scale_initial))
+            {
+                X -= DisplayDevice.Default.Width / scale_initial;
+            }
 
             if (eventArgs.Key == Key.Space)
             {
@@ -78,12 +102,12 @@ namespace Box2D.Window
                 view.Position = Vector2.Zero;
             }
 
-            if (eventArgs.Key == Key.Minus || eventArgs.Key == Key.KeypadMinus)
+            if (eventArgs.Key == Key.Q)
             {
                 view.Zoom /= 1.2f;
             }
 
-            if (eventArgs.Key == Key.Plus || eventArgs.Key == Key.KeypadPlus)
+            if (eventArgs.Key == Key.E)
             {
                 view.Zoom *= 1.2f;
             }
@@ -115,8 +139,18 @@ namespace Box2D.Window
                     var x = GetHorizontal();
                     var y = GetVertical();
                     var direction = new Vector2(x, y);
-
-                    view.Position += direction * WindowSettings.KeyboardMoveSpeed;
+                    if (!Keyboard.GetState().IsKeyDown(Key.ShiftLeft) && !Keyboard.GetState().IsKeyDown(Key.AltLeft))
+                        view.Position += direction * WindowSettings.KeyboardMoveSpeed * 1.25f;
+                    else
+                    if (Keyboard.GetState().IsKeyDown(Key.ShiftLeft))
+                    {
+                        view.Position += direction * (WindowSettings.KeyboardMoveSpeed * 3f);
+                    }
+                    else
+                    if (Keyboard.GetState().IsKeyDown(Key.AltLeft))
+                    {
+                        view.Position += direction * (0.075f);
+                    }
                 }
             }
         }
@@ -150,12 +184,12 @@ namespace Box2D.Window
         {
             var horizontal = 0;
 
-            if (Keyboard.GetState().IsKeyDown(Key.Left))
+            if (Keyboard.GetState().IsKeyDown(Key.A))
             {
                 horizontal = -1;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Key.Right))
+            if (Keyboard.GetState().IsKeyDown(Key.D))
             {
                 horizontal = 1;
             }
@@ -167,12 +201,12 @@ namespace Box2D.Window
         {
             var vertical = 0;
 
-            if (Keyboard.GetState().IsKeyDown(Key.Up))
+            if (Keyboard.GetState().IsKeyDown(Key.W))
             {
                 vertical = 1;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Key.Down))
+            if (Keyboard.GetState().IsKeyDown(Key.S))
             {
                 vertical = -1;
             }
