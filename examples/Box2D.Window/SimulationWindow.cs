@@ -30,8 +30,9 @@ namespace Box2D.Window
         private int frames = 0;
         private int width_initial = 0;
         private int height_initial = 0;
-        private int scale_initial = 0;
-        public SimulationWindow(string title, int width, int height, int scale, GameWindowFlags gameWindowFlags, Body focusBody = null)
+        private int scaleX = 0;
+        private int scaleY = 0;
+        public SimulationWindow(string title, int width, int height, int scaleX, int scaleY, GameWindowFlags gameWindowFlags, Body focusBody = null)
             : base(width, height, GraphicsMode.Default, title, gameWindowFlags)
         {
             this.title = title;
@@ -39,11 +40,10 @@ namespace Box2D.Window
             this.Y = 0;
             width_initial = width;
             height_initial = height;
-            scale_initial = scale;
+            this.scaleX = scaleX;
             this.focusBody = focusBody;
             WindowBorder = WindowBorder.Hidden;
-            Size = new Size(width / scale, height);
-
+            Size = new Size(width / scaleX, height);
             drawActions = new ConcurrentQueue<Action>();
         }
 
@@ -73,43 +73,20 @@ namespace Box2D.Window
                 Exit();
                 return;
             }
-            if (eventArgs.Key == Key.Right && (X + (DisplayDevice.Default.Width / scale_initial)) <= (DisplayDevice.Default.Width - (DisplayDevice.Default.Width / scale_initial)))
-            {
-                X += DisplayDevice.Default.Width / scale_initial;
-            }
-            if (eventArgs.Key == Key.Left && X >= (DisplayDevice.Default.Width / scale_initial))
-            {
-                X -= DisplayDevice.Default.Width / scale_initial;
-            }
-
-            if (eventArgs.Key == Key.Space)
-            {
-                StepNext = true;
-            }
-
-            if (eventArgs.Key == Key.P)
-            {
-                Paused = !Paused;
-            }
-
-            if (view == null)
-            {
-                return;
-            }
+            if (eventArgs.Key == Key.Number3 && (X + (DisplayDevice.Default.Width / scaleX)) <= (DisplayDevice.Default.Width - (DisplayDevice.Default.Width / scaleX)))
+                X += DisplayDevice.Default.Width / scaleX;
+            if (eventArgs.Key == Key.Number1 && X >= (DisplayDevice.Default.Width / scaleX))
+                X -= DisplayDevice.Default.Width / scaleX;
+            if (eventArgs.Key == Key.Number2 && X != DisplayDevice.Default.Width / scaleX / 2)
+                X = DisplayDevice.Default.Width / scaleX + (DisplayDevice.Default.Width / scaleX / 2);
+            if (eventArgs.Key == Key.Number1 && X == DisplayDevice.Default.Width / scaleX / 2)
+                X -= DisplayDevice.Default.Width / scaleX / 2;
+            if (eventArgs.Key == Key.Number3 && X == DisplayDevice.Default.Width / scaleX / 2)
+                X += DisplayDevice.Default.Width / scaleX / 2;
 
             if (eventArgs.Key == Key.Enter)
             {
                 view.Position = Vector2.Zero;
-            }
-
-            if (eventArgs.Key == Key.Q)
-            {
-                view.Zoom /= 1.2f;
-            }
-
-            if (eventArgs.Key == Key.E)
-            {
-                view.Zoom *= 1.2f;
             }
         }
 
