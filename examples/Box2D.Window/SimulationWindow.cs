@@ -73,14 +73,18 @@ namespace Box2D.Window
                 Exit();
                 return;
             }
-            if (eventArgs.Key == Key.Number3 && (X + (DisplayDevice.Default.Width / scaleX)) <= (DisplayDevice.Default.Width - (DisplayDevice.Default.Width / scaleX)))
-                X += DisplayDevice.Default.Width / scaleX;
-            if (eventArgs.Key == Key.Number1 && X >= (DisplayDevice.Default.Width / scaleX))
-                X -= DisplayDevice.Default.Width / scaleX;
+            if (eventArgs.Key == Key.Number3 && (X + (DisplayDevice.Default.Width / scaleX / 2)) <= (DisplayDevice.Default.Width - (DisplayDevice.Default.Width / scaleX)))
+                X += DisplayDevice.Default.Width / scaleX / 2;
+            else
+            if (eventArgs.Key == Key.Number1 && X >= (DisplayDevice.Default.Width / scaleX / 2))
+                X -= DisplayDevice.Default.Width / scaleX / 2;
+            else
             if (eventArgs.Key == Key.Number2 && X != DisplayDevice.Default.Width / scaleX / 2)
                 X = DisplayDevice.Default.Width / scaleX + (DisplayDevice.Default.Width / scaleX / 2);
+            else
             if (eventArgs.Key == Key.Number1 && X == DisplayDevice.Default.Width / scaleX / 2)
                 X -= DisplayDevice.Default.Width / scaleX / 2;
+            else
             if (eventArgs.Key == Key.Number3 && X == DisplayDevice.Default.Width / scaleX / 2)
                 X += DisplayDevice.Default.Width / scaleX / 2;
 
